@@ -13,6 +13,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "chartist": "^0.11.0",
     "easy-pie-chart": "^2.1.7",
     "element-ui": "^2.0.3",
@@ -28,7 +29,8 @@
     "vue-form-wizard": "^0.7.0",
     "vue-nav-tabs": "^0.5.4",
     "vue-notifyjs": "^0.2.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
