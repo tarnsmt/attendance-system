@@ -79,7 +79,19 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
+  import store from 'src/store/store'
+  import Vuex from 'vuex'
+  global.vuex = Vuex
   export default {
+    data () {
+      return {
+        username: null,
+        password: null,
+        loginstate: store.state.login
+      }
+    },
+    store,
     methods: {
       toggleNavbar () {
         document.body.classList.toggle('nav-open')
@@ -87,6 +99,9 @@
       closeMenu () {
         document.body.classList.remove('nav-open')
         document.body.classList.remove('off-canvas-sidebar')
+      },
+      async login () {
+        axios.post('API endpoints')
       }
     },
     beforeDestroy () {
