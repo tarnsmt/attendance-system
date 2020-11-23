@@ -119,7 +119,6 @@
           await axios.get('http://127.0.0.1:5000/user/teacher/get_class?teacher_id=' + store.state.userid).then(
           res => {
             store.commit('CLASS_LIST_CHANGE', res.data['class_list'])
-            alert(res.data['class_list'])
             this.$router.push('/admin/overview')
           }
         )
