@@ -41,15 +41,17 @@
                     <div class="card-content">
                       <div class="form-group">
                         <label>Username</label>
-                        <input type="email" placeholder="Enter email" class="form-control input-no-border">
+                        <input type="email" placeholder="Enter email" class="form-control input-no-border" v-model='username'>
                       </div>
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" placeholder="Password" class="form-control input-no-border">
+                        <input type="password" placeholder="Password" class="form-control input-no-border" v-model='password'>
                       </div>
                     </div>
                     <div class="card-footer text-center">
-                      <button type="submit" class="btn btn-fill btn-wd ">Enter</button>
+                      <button class="btn btn-fill btn-wd ">
+                        <a @click='login' style="color:white">Login</a>
+                      </button>
                       <div class="forgot">
                         <router-link to="/register">
                           Forgot your password?
@@ -88,7 +90,8 @@
       return {
         username: null,
         password: null,
-        loginstate: store.state.login
+        loginstate: store.state.login,
+        message: null
       }
     },
     store,
@@ -101,7 +104,28 @@
         document.body.classList.remove('off-canvas-sidebar')
       },
       async login () {
-        axios.post('API endpoints')
+        if (this.username === null || this.password === null) {
+          alert('Please enter username and password')
+        } else {
+          let payload = {
+            'email': this.username,
+            'password': this.password
+          }
+          this.apipayload = payload
+          await axios.post('http://127.0.0.1:5000/user/teacher/login', this.apipayload).then(
+            res => {
+              this.info = res.data
+              this.message = this.info['message']
+              store.commit('USERNAME_CHANGE', this.username)
+              store.commit('PASSWORD_CHANGE', this.password)
+              store.commit('NAME_CHANGE', this.info['user_info'][1])
+              store.commit('LOGIN_CHANGE', true)
+              store.commit('USERID_CHANGE', this.info['user_info'][0])
+              alert(this.message)
+              this.$router.push('/admin/overview')
+            }
+          )
+        }
       }
     },
     beforeDestroy () {
