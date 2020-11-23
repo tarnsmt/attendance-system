@@ -65,7 +65,11 @@
   import Vue from 'vue'
   import {Table, TableColumn, Select, Option} from 'element-ui'
   import PPagination from 'src/components/UIComponents/Pagination.vue'
-  import subjects from './subjects'
+  // import subjects from './subjects'
+  import axios from 'axios'
+  import store from 'src/store/store'
+  import Vuex from 'vuex'
+  global.vuex = Vuex
   Vue.use(Table)
   Vue.use(TableColumn)
   Vue.use(Select)
@@ -120,6 +124,8 @@
     },
     data () {
       return {
+        user_id: store.state.userid,
+        subject: store.state.class_list,
         pagination: {
           perPage: 5,
           currentPage: 1,
@@ -127,23 +133,47 @@
           total: 0
         },
         searchQuery: '',
-        propsToSearch: ['id', 'subject'],
+        propsToSearch: ['id', 'subject', 'course', 'late_time'],
         tableColumns: [
           {
             prop: 'id',
-            label: 'id',
+            label: 'ID',
             minWidth: 100
           },
           {
             prop: 'subject',
-            label: 'subject',
-            minWidth: 250
+            label: 'Subject',
+            minWidth: 150
+          },
+          {
+            prop: 'course',
+            label: 'Course',
+            minWidth: 100
+          },
+          {
+            prop: 'late_time',
+            label: 'Late time',
+            minWidth: 150
           }
         ],
-        tableData: subjects
+        tableData: store.state.class_list
       }
     },
+    created () {
+      this.fetchData()
+      setInterval(this.fetchData, 10000)
+    },
     methods: {
+      async fetchData () {
+        await axios.get('http://127.0.0.1:5000/user/teacher/get_class?teacher_id=' + this.user_id).then(
+          res => {
+            this.subject = res.data['class_list']
+            this.tableData = this.subject
+            console.log(this.subject)
+            store.commit('CLASS_LIST_CHANGE', this.subject)
+          }
+        )
+      },
       handleLike (index, row) {
         alert(`Your want to like ${row.name}`)
       },
