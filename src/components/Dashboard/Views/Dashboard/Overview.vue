@@ -1,6 +1,18 @@
 <template>
   <div class="row">
     <div class="col-md-12">
+      <h4 class="title">Get Class Attendance</h4>
+      <div class="col-md-12 card">
+        <br>
+        <input type="number" class="form-control" placeholder="Class ID" aria-label="Class ID" aria-describedby="basic-addon2" v-model="input_class_id">
+        <br>
+        <button class="btn btn-outline-secondary" type="button">
+          <a @click="showAttendance">Submit</a>
+        </button>
+        <hr>
+      </div>
+    </div>
+    <div class="col-md-12">
       <h4 class="title">All Class Attendance</h4>
     </div>
     <div class="col-md-12 card">
@@ -41,8 +53,8 @@
               :min-width="120"
               fixed="right"
               label="Student Attendance">
-              <template slot-scope="props">
-                <a class="btn btn-simple btn-xs btn-warning btn-icon edit" @click="handleEdit(props.$index, props.row)"><i class="ti-pencil-alt"></i></a>
+              <template slot-scope="props" >
+                <a class="btn btn-simple btn-xs btn-warning btn-icon edit" @click="showAttendance"><i class="ti-pencil-alt"></i></a>
               </template>
             </el-table-column>
           </el-table>
@@ -126,6 +138,7 @@
       return {
         user_id: store.state.userid,
         subject: store.state.class_list,
+        input_class_id: null,
         pagination: {
           perPage: 5,
           currentPage: 1,
@@ -170,8 +183,16 @@
           res => {
             this.subject = res.data['class_list']
             this.tableData = this.subject
-            console.log(this.subject)
             store.commit('CLASS_LIST_CHANGE', this.subject)
+          }
+        )
+      },
+      async showAttendance () {
+        await axios.get('http://127.0.0.1:5000/user/teacher/get_attendance?class_id=' + this.input_class_id).then(
+          res => {
+            store.commit('STUDENT_LIST_CHANGE', res.data['attendance_list'])
+            store.commit('SELECTED_CLASS_ID_CHANGE', this.input_class_id)
+            this.$router.push('/attendance')
           }
         )
       },
