@@ -3,7 +3,7 @@ import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 // Dashboard pages
 import Overview from 'src/components/Dashboard/Views/Dashboard/Overview.vue'
-
+import Attendance from 'src/components/Dashboard/Views/Dashboard/Attendance.vue'
 // Pages
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 
@@ -14,6 +14,11 @@ let loginPage = {
   path: '/login',
   name: 'Login',
   component: Login
+}
+let attendancePage = {
+  path: '/attendance',
+  name: 'Attendance',
+  component: Attendance
 }
 
 
@@ -31,6 +36,7 @@ const routes = [
     ]
   },
   loginPage,
+  attendancePage,
   {
     path: '/admin',
     component: DashboardLayout,
