@@ -12,7 +12,8 @@ const state = {
   username: '',
   password: '',
   login: false,
-  name: ''
+  name: '',
+  class_list: []
 }
 
 // Create an object storing various mutations. We will write the mutation
@@ -32,6 +33,9 @@ const mutations = {
   },
   NAME_CHANGE: (state, value) => {
     state.name = value
+  },
+  CLASS_LIST_CHANGE: (state, value) => {
+    state.class_list = value
   }
 }
 
@@ -40,7 +44,8 @@ const getters = {
   username: state => state.username,
   password: state => state.password,
   login: state => state.login,
-  name: state => state.name
+  name: state => state.name,
+  class_list: state => state.class_list
 }
 
 const actions = {
@@ -58,6 +63,9 @@ const actions = {
   },
   saveName: (state, value) => {
     store.commit('NAME_CHANGE', value)
+  },
+  saveClass_list: (state, value) => {
+    store.commit('CLASS_LIST_CHANGE', value)
   }
 }
 
