@@ -14,14 +14,6 @@
           </button>
           <router-link class="navbar-brand" to="/admin">Attendance System</router-link>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-
-            <router-link to="/admin/overview" tag="li">
-              <a>Dashboard</a>
-            </router-link>
-          </ul>
-        </div>
       </div>
     </nav>
 
@@ -122,9 +114,15 @@
               store.commit('LOGIN_CHANGE', true)
               store.commit('USERID_CHANGE', this.info['user_info'][0])
               alert(this.message)
-              this.$router.push('/admin/overview')
             }
           )
+          await axios.get('http://127.0.0.1:5000/user/teacher/get_class?teacher_id=' + store.state.userid).then(
+          res => {
+            store.commit('CLASS_LIST_CHANGE', res.data['class_list'])
+            alert(res.data['class_list'])
+            this.$router.push('/admin/overview')
+          }
+        )
         }
       }
     },
