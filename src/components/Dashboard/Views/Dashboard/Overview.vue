@@ -159,6 +159,7 @@
         tableData: store.state.class_list
       }
     },
+    store,
     created () {
       this.fetchData()
       setInterval(this.fetchData, 10000)
