@@ -6,7 +6,7 @@
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
            <span>
-             Username
+             {{ username }}
             
           </span>
       </a>
@@ -18,14 +18,18 @@
   </div>
 </template>
 <script>
+  import store from 'src/store/store'
+  import Vuex from 'vuex'
   import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+  global.vuex = Vuex
   export default {
     components: {
       [CollapseTransition.name]: CollapseTransition
     },
     data () {
       return {
-        isClosed: true
+        isClosed: true,
+        username: store.state.name
       }
     },
     methods: {
